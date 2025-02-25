@@ -48,6 +48,14 @@ type RequestCreateTask struct {
 	Desc  string `json:"description"`
 }
 
+func validateTitle(title string) bool {
+	if len(title) < 1 {
+		return false
+	} else {
+		return true
+	}
+}
+
 // Создать Задачу
 func CreateTask(c fiber.Ctx) error {
 	taskModel, ok := c.Locals("TaskModel").(*models.TaskModel)
@@ -61,6 +69,12 @@ func CreateTask(c fiber.Ctx) error {
 	if err := c.Bind().JSON(&request); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": err.Error(),
+		})
+	}
+
+	if !validateTitle(request.Title) {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Title is not valid",
 		})
 	}
 
@@ -80,10 +94,6 @@ func CreateTask(c fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Task added successfully",
 	})
-}
-
-type RequestDeleteTask struct {
-	Id int `uri:"id" binding:"required"`
 }
 
 func DeleteTask(c fiber.Ctx) error {
