@@ -1,4 +1,5 @@
 run-server:
+	go mod tidy
 	go run ./cmd/server/main.go
 
 run-db:
@@ -14,4 +15,5 @@ migration-down:
 	@goose down
 
 build-server:
+	go mod tidy
 	go run -o server ./cmd/server/main.go
