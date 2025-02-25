@@ -12,3 +12,6 @@ migration-up:
 
 migration-down:
 	@goose down
+
+build-server:
+	go run -o server ./cmd/server/main.go
