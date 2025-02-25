@@ -1,0 +1,13 @@
+services:
+  postgres_day06:
+    image: postgres:latest
+    container_name: postgres_day06
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./migrations/todos.txt:/migrations/todos.txt
+    restart: unless-stopped
